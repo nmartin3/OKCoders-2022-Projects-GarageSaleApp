@@ -1,0 +1,327 @@
+<HTML>
+	<head>
+		<title>Garage Sale Application</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@1,100&family=Roboto:ital,wght@0,300;0,400;1,100&display=swap" rel="stylesheet">
+		<style>
+			#cartCounter {
+				border-top: 6px solid #db790a;
+				background-color: #000; 
+				height: 4em; 
+				margin-bottom: 5em;
+				position: fixed;
+				top: 0%;
+				width: 100%;
+			}
+
+			#productCounter {
+			    color: #fff;
+			    text-align: center;
+			    margin: auto;
+			    line-height: 2.5em;
+			    vertical-align: middle;
+			    font-size: 1.5em;				
+			}
+
+			#productContainer {
+				width: 90%;
+    			margin: 7em 5em 1em;
+    			font-family: 'Roboto', sans-serif;
+			}
+
+			.product {
+				height: 15em;
+			}
+
+			.product h1 {
+				margin-top: 0px;
+				font-family: 'Roboto', sans-serif;
+			}
+
+			.prodId {
+				color: #9e938d;
+				margin-bottom: 10px;
+			}
+
+			#productImage {
+				float: left;
+   				display: block;
+    			margin-right: 2em;
+			}
+
+			#productPrice span {
+				font-family: 'Raleway', sans-serif;
+				font-weight: 600;
+			}
+
+			#checkoutSection {
+				width: 90%;
+				margin-left: 5em;
+			}
+
+
+			button {
+			    width: 11em;
+			    height: 2.75em;
+			    background-color: #b9b4af;
+			    color: #FFF;
+			    border-radius: 4px;
+			    border: 1px solid #eee;
+			}
+
+			button:hover {
+				background-color: #c5c3c1;
+			}
+
+			.addedToCart {
+				background-color: #989189;
+			}
+
+
+			@media screen and (max-width: 800px) {
+			  .product {
+			    height: 25em;
+			  }
+			  .product img {
+			  	float: none;
+			  }
+			}			
+		</style>
+	</head>
+	<body>
+		<div id="pageContainer">
+			<div id="cartCounter">
+				<p id="productCounter">Items in Cart: <span id="productCount">0</span></p>
+			</div>
+			<div id="productContainer">
+				<div id="sampleproduct1" class="product">{productInfo}</div>
+				<div id="sampleproduct2" class="product">{productInfo}</div>
+				<div id="sampleproduct3" class="product">{productInfo}</div>
+				<div id="sampleproduct4" class="product">{productInfo}</div>
+				<div id="sampleproduct5" class="product">{productInfo}</div>
+			</div>
+			<div id="checkoutSection">
+				<button id="checkout">Checkout (inactive)</button>
+			</div>
+		</div>
+		<script>
+
+			//CREATE A FUNCTION TO CALL ON PAGE LOAD
+			const userAction = async () => {
+			  
+				  // MAKE API CALL TO MOCK API
+				  const response = await fetch('https://6251dbd57f7fa1b1dddfebe2.mockapi.io/api/v1/products');
+				  
+
+				  // EXTRACT JSON FROM HTTP RESPONSE
+				   const myJson = await response.json();
+
+				  // PARSE THROUGH AND DISPLAY EACH ELEMENT SEPARATELY AND THEN TITLE ONLY
+				  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+				  //var productTitles = myJson.forEach(element => console.log(element));
+				  //var productTitles = myJson.forEach(element => console.log(element.productTitle));
+
+				  // DISPLAY SINGLE ATTRIBUTE OF FIRST ELEMENT
+				  //console.log(myJson[0].productTitle)
+				  
+
+
+				  // FUNCTION TO PASS ARGUMENTS THAT WILL DYNAMICALLY BUILD HTML
+				    function displayProducts(id, title, desc, price, image, cart) {
+						return `
+								<p class="prodId">Product ID: ${id}</p>
+								<div id="productImage"><img src="${image}" alt="${title}" width="300px" /></div>
+								<h1>${title}</h1>
+								<p>Product Description: ${desc}</p>
+								<p id="productPrice">Product Price: <span>$${price}</span></p>
+								<button id="${id}" onclick="${cart}">Add to Cart</button>
+								`
+
+					}
+
+
+					  // ASSIGN ARRAY ATTRIBUTES TO VARIABLES (this + displayProduct[] can be set up as loop later)
+					  var productId1 = (myJson[0].id)
+					  var productTitle1 = (myJson[0].productTitle)
+					  var productDescription1 = (myJson[0].productDescription)
+					  var productPrice1 = (myJson[0].productPrice)
+					  var productImage1 = (myJson[0].productImage)
+					  var productClicked1 = "productClick1()"
+
+					  var productId2 = (myJson[1].id)
+					  var productTitle2 = (myJson[1].productTitle)
+					  var productDescription2 = (myJson[1].productDescription)
+					  var productPrice2 = (myJson[1].productPrice)
+					  var productImage2 = (myJson[1].productImage)
+					  var productClicked2 = "productClick2()"
+
+					  var productId3 = (myJson[2].id)
+					  var productTitle3 = (myJson[2].productTitle)
+					  var productDescription3 = (myJson[2].productDescription)
+					  var productPrice3 = (myJson[2].productPrice)
+					  var productImage3 = (myJson[2].productImage)
+					  var productClicked3 = "productClick3()"
+
+					  var productId4 = (myJson[3].id)
+					  var productTitle4 = (myJson[3].productTitle)
+					  var productDescription4 = (myJson[3].productDescription)
+					  var productPrice4 = (myJson[3].productPrice)
+					  var productImage4 = (myJson[3].productImage)
+					  var productClicked4 = "productClick4()"
+
+					  var productId5 = (myJson[4].id)
+					  var productTitle5 = (myJson[4].productTitle)
+					  var productDescription5 = (myJson[4].productDescription)
+					  var productPrice5 = (myJson[4].productPrice)
+					  var productImage5 = (myJson[4].productImage)
+					  var productClicked5 = "productClick5()"
+
+					  // VARIABLE TO GENERATE HTML FOR PRODUCT #1
+					  var displayProduct1 = displayProducts(productId1,productTitle1,productDescription1,productPrice1,productImage1,productClicked1)
+					  console.log(displayProduct1)
+
+					  // VARIABLE TO GENERATE HTML FOR PRODUCT #2
+					  var displayProduct2 = displayProducts(productId2,productTitle2,productDescription2,productPrice2,productImage2,productClicked2)
+					  console.log(displayProduct2)
+
+					  // VARIABLE TO GENERATE HTML FOR PRODUCT #3
+					  var displayProduct3 = displayProducts(productId3,productTitle3,productDescription3,productPrice3,productImage3,productClicked3)
+					  console.log(displayProduct3)
+
+					  // VARIABLE TO GENERATE HTML FOR PRODUCT #4
+					  var displayProduct4 = displayProducts(productId4,productTitle4,productDescription4,productPrice4,productImage4,productClicked4)
+					  console.log(displayProduct4)
+
+					  // VARIABLE TO GENERATE HTML FOR PRODUCT #5
+					  var displayProduct5 = displayProducts(productId5,productTitle5,productDescription5,productPrice5,productImage5,productClicked5)
+					  console.log(displayProduct5)
+
+					  // INJECT DYNAMIC HTML FOR EACH PRODUCT
+					  document.getElementById('sampleproduct1').innerHTML = displayProduct1
+					  document.getElementById('sampleproduct2').innerHTML = displayProduct2
+					  document.getElementById('sampleproduct3').innerHTML = displayProduct3
+					  document.getElementById('sampleproduct4').innerHTML = displayProduct4
+					  document.getElementById('sampleproduct5').innerHTML = displayProduct5
+
+			 }
+
+
+			//Elements not loaded yet if we try to run the code below inside of userAction
+
+			const shoppingCart = []
+			var shoppingCartCount = 0
+
+			 function productClick1() {
+			 	if (document.getElementById("10001").classList.contains("addedToCart")) {
+			 		shoppingCart.pop()
+			 		shoppingCartCount -= 1
+			 	    document.getElementById("productCount").innerHTML = shoppingCartCount
+				 	console.log(shoppingCart)
+				 	document.getElementById("10001").innerHTML = "Add to Cart"
+			 		document.getElementById("10001").className = "removedFromCart"
+			 	}
+			 	else {
+				 	//console.log("Clicked P1 outside of function") 
+				 	shoppingCart.push("10001")
+				 	shoppingCartCount += 1
+				 	document.getElementById("productCount").innerHTML = shoppingCartCount
+				 	console.log(shoppingCart)
+				 	document.getElementById("10001").innerHTML = "Remove From Cart"
+				 	document.getElementById("10001").classList.add("addedToCart")
+
+			 	}
+
+			 }
+
+			 function productClick2() {
+			 	if (document.getElementById("10002").classList.contains("addedToCart")) {
+			 		shoppingCart.pop()
+			 		shoppingCartCount -= 1
+			 	    document.getElementById("productCount").innerHTML = shoppingCartCount
+				 	console.log(shoppingCart)
+				 	document.getElementById("10002").innerHTML = "Add to Cart"
+			 		document.getElementById("10002").className = "removedFromCart"
+			 	}
+			 	else {
+				 	//console.log("Clicked P1 outside of function") 
+				 	shoppingCart.push("10002")
+				 	shoppingCartCount += 1
+				 	document.getElementById("productCount").innerHTML = shoppingCartCount
+				 	console.log(shoppingCart)
+				 	document.getElementById("10002").innerHTML = "Remove From Cart"
+				 	document.getElementById("10002").classList.add("addedToCart")
+
+			 	}
+			 }
+
+			 function productClick3() {
+			 	if (document.getElementById("10003").classList.contains("addedToCart")) {
+			 		shoppingCart.pop()
+			 		shoppingCartCount -= 1
+			 	    document.getElementById("productCount").innerHTML = shoppingCartCount
+				 	console.log(shoppingCart)
+				 	document.getElementById("10003").innerHTML = "Add to Cart"
+			 		document.getElementById("10003").className = "removedFromCart"
+			 	}
+			 	else {
+				 	//console.log("Clicked P1 outside of function") 
+				 	shoppingCart.push("10003")
+				 	shoppingCartCount += 1
+				 	document.getElementById("productCount").innerHTML = shoppingCartCount
+				 	console.log(shoppingCart)
+				 	document.getElementById("10003").innerHTML = "Remove From Cart"
+				 	document.getElementById("10003").classList.add("addedToCart")
+
+			 	}
+			 }
+
+			 function productClick4() {
+			 	if (document.getElementById("10004").classList.contains("addedToCart")) {
+			 		shoppingCart.pop()
+			 		shoppingCartCount -= 1
+			 	    document.getElementById("productCount").innerHTML = shoppingCartCount
+				 	console.log(shoppingCart)
+				 	document.getElementById("10004").innerHTML = "Add to Cart"
+			 		document.getElementById("10004").className = "removedFromCart"
+			 	}
+			 	else {
+				 	//console.log("Clicked P1 outside of function") 
+				 	shoppingCart.push("10004")
+				 	shoppingCartCount += 1
+				 	document.getElementById("productCount").innerHTML = shoppingCartCount
+				 	console.log(shoppingCart)
+				 	document.getElementById("10004").innerHTML = "Remove From Cart"
+				 	document.getElementById("10004").classList.add("addedToCart")
+
+			 	}
+			 }
+
+			 function productClick5() {
+			 	if (document.getElementById("10005").classList.contains("addedToCart")) {
+			 		shoppingCart.pop()
+			 		shoppingCartCount -= 1
+			 	    document.getElementById("productCount").innerHTML = shoppingCartCount
+				 	console.log(shoppingCart)
+				 	document.getElementById("10005").innerHTML = "Add to Cart"
+			 		document.getElementById("10005").className = "removedFromCart"
+			 	}
+			 	else {
+				 	//console.log("Clicked P1 outside of function") 
+				 	shoppingCart.push("10005")
+				 	shoppingCartCount += 1
+				 	document.getElementById("productCount").innerHTML = shoppingCartCount
+				 	console.log(shoppingCart)
+				 	document.getElementById("10005").innerHTML = "Remove From Cart"
+				 	document.getElementById("10005").classList.add("addedToCart")
+
+			 	}
+			 }
+
+			const checkOutButton = document.getElementById("checkout")
+
+			window.onload = userAction
+
+		</script>
+	</body>
+</HTML>
